@@ -103,7 +103,7 @@ Moran.I(rh, w)
 #####
 library(raster)
 
-#Import DEM
+#Import DEM, originally from EarthExplorer
 dem = raster("../chile.tif")
 str(dem)
 plot(dem)
@@ -216,6 +216,8 @@ sites.spdf = SpatialPointsDataFrame(data.frame(sites$Longitude, sites$Latitude),
                                     proj4string = CRS(proj4string(dem)))
 write.csv(pp, "all_precip.csv")
 
+D.r = d2H.r - 8 * d18O.r
+
 #Plots
 library(rgdal)
 bnd = readOGR("South_America.shp")
@@ -235,7 +237,7 @@ text(-75.2, -36.2, "a", pos = 2)
 box()
 
 plot(d18O.r, xlim = c(-76, -70), legend = FALSE)
-addRasterLegend(d2H.r, side = 4, location = c(-69.6, -69.3, -43.5, -38.5), cex = 1)
+addRasterLegend(d18O.r, side = 4, location = c(-69.6, -69.3, -43.5, -38.5), cex = 1)
 axis(4, at = -41, labels = expression("Lake isoscape "*delta^{18}*"O (\u2030)"), tick = FALSE, line=3.8, cex.axis = 1.2)
 lines(bnd, col="dark grey")
 points(sites.spdf, col = "blue")
@@ -243,7 +245,7 @@ text(-75.2, -36.2, "b", pos = 2)
 box()
 
 plot(D.r, xlim = c(-76, -70), legend = FALSE)
-addRasterLegend(d2H.r, side = 4, location = c(-69.6, -69.3, -43.5, -38.5), cex = 1)
+addRasterLegend(D.r, side = 4, location = c(-69.6, -69.3, -43.5, -38.5), cex = 1)
 axis(4, at = -41, labels = "Lake isoscape D-excess (\u2030)", tick = FALSE, line=3.8, cex.axis = 1.2)
 lines(bnd, col="dark grey")
 text(-75.2, -36.2, "c", pos = 2)
